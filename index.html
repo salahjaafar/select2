@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select2 from URL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+</head>
+<body>
+    <select id="mySelect" style="width: 300px;"></select>
+
+    <script>
+$('#mySelect').select2({
+  ajax: {
+    url: function (params) {
+      // Construct the search query URL based on the user's input
+      var searchQuery = params.term;
+      return 'https://jsonplaceholder.typicode.com/users?q=' + searchQuery;
+    },
+    dataType: 'json',
+    delay: 250, // Delay requests slightly for better performance
+    data: function (params) {
+      return {
+        q: params.term, // Pass the search query to the server
+        page: params.page
+      };
+    },
+    processResults: function (data, params) {
+      // Transform the flat JSON array into Select2's expected format
+      return {
+        results: $.map(data, function (item) {
+          return {
+            id: item.id,
+            text: item.name + ' (' + item.username + ')'
+          };
+        })
+      };
+    },
+    cache: true
+  }
+});
+
+</script>
+</body>
+</html>
