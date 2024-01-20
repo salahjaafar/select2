@@ -17,7 +17,7 @@ $('#mySelect').select2({
     url: function (params) {
       // Construct the search query URL based on the user's input
       var searchQuery = params.term;
-      return 'https://jsonplaceholder.typicode.com/users?q=' + searchQuery;
+      return 'http://localhost/rapport/index.php?option=com_jsonmaker&tmpl=component&format=raw&tableselect=medecin&term=' + searchQuery;
     },
     dataType: 'json',
     delay: 250, // Delay requests slightly for better performance
@@ -33,7 +33,7 @@ $('#mySelect').select2({
         results: $.map(data, function (item) {
           return {
             id: item.id,
-            text: item.name + ' (' + item.username + ')'
+            text: item.name
           };
         })
       };
